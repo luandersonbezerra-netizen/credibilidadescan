@@ -42,18 +42,17 @@ function validateAndGoToQuiz() {
     goToScreen(2);
 }
 
+// FUNÇÃO goToScreen (Fluxo sem Tela 4)
 function goToScreen(screenNumber) {
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
     });
-    document.getElementById(`screen-${screenNumber}`).classList.add('active');
-
-    if (screenNumber === 2) {
-        renderQuestion(currentQuestionIndex);
-    } else if (screenNumber === 3) {
-        calculateResult();
-    } else if (screenNumber === 4) {
-        generateAiReport();
+    
+    if (screenNumber === 3) {
+        document.getElementById(`screen-${screenNumber}`).classList.add('active');
+        calculateResult(); // <- Quando chega na Tela 3, dispara a função que configura o botão
+    } else {
+        document.getElementById(`screen-${screenNumber}`).classList.add('active');
     }
 }
 
@@ -97,6 +96,7 @@ function nextQuestion() {
     renderQuestion(currentQuestionIndex);
 }
 
+// calculateResult (Configura o botão para sair do app)
 function calculateResult() {
     finalScore = Object.values(userResponses).reduce((sum, score) => sum + score, 0);
     document.getElementById('final-score').textContent = finalScore;
@@ -111,57 +111,14 @@ function calculateResult() {
     levelBadge.textContent = finalLevel.name;
     levelBadge.className = 'level-badge ' + finalLevel.class;
     document.getElementById('level-description').textContent = finalLevel.desc;
-}
 
-
-async function generateAiReport() {
-    const reportContentDiv = document.getElementById('ai-report-text');
-    document.getElementById('final-handle').textContent = instagramHandle; // Mostra o perfil
-    reportContentDiv.innerHTML = '<p class="loading-text">Analisando suas respostas e justificando a necessidade de impulsionamento...</p><div class="spinner"></div>';
-
-    const analysisData = questions.map(q => {
-        const score = userResponses[q.id] || 1; 
-        const responseText = Object.keys(scoring).find(key => scoring[key] === score);
-        return `- ${q.title}: ${responseText} (${score} pts)`;
-    }).join('\n');
-    
-    const userLevel = document.getElementById('final-level').textContent;
-
-    const aiPrompt = `
-        Com base nas seguintes respostas do perfil @${instagramHandle} (Pontuação Total: ${finalScore} / 15, Nível: ${userLevel}):
-        ${analysisData}
-        
-        Gere um diagnóstico profissional focado em Credibilidade e Prova Social, explicando de forma urgente e convincente:
-        1. **O que está a impedir a Credibilidade** (Falta de números de seguidores/curtidas)
-        2. **A Solução Única:** Argumente que a única forma de corrigir isso instantaneamente é através de Impulsionamento Digital (comprando seguidores/curtidas/views).
-        3. **Foque na Confiança:** Explique que o investimento em números é o investimento em prova social, que é o que leva à confiança e, consequentemente, a vendas e parcerias.
-        4. **Conclusão Estratégica:** Aconselhe o usuário a não perder mais tempo e clicar no botão "Quero minha proposta de impulsionamento".
-        
-        Use linguagem direta, consultiva, com senso de urgência e formatada para HTML (use <p>, <strong>, <h3> e <ul>/<li>).
-    `;
-
-    try {
-        const response = await fetch('/api/generateReport', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ prompt: aiPrompt }), 
-        });
-
-        if (!response.ok) {
-            throw new Error(`Erro da API: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        const aiReport = data.report; 
-
-        reportContentDiv.innerHTML = aiReport;
-
-    } catch (error) {
-        console.error("Erro ao gerar relatório de IA:", error);
-        reportContentDiv.innerHTML = `<p class="loading-text" style="color: #ff0000;">Erro ao conectar com o serviço de IA. Verifique se a chave GEMINI_API_KEY está correta na Vercel.</p>`;
-    }
+    // ALTERAÇÃO CRUCIAL: O botão da Tela 3 AGORA ABRE UM LINK
+    const ctaButton = document.querySelector('#screen-3 .cta-button');
+    ctaButton.textContent = 'QUERO MINHA PROPOSTA DE IMPULSIONAMENTO';
+    ctaButton.onclick = function() {
+        // SUBSTITUA ESTE LINK PELO SEU LINK DE VENDAS/CONTATO
+        window.open('https://MEU_LINK_DE_VENDAS_AQUI', '_blank');
+    };
 }
 
 function resetApp() {
