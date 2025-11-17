@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico Rápido de Credibilidade | Impulso Digital</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="app-container">
+        <div id="screen-1" class="screen active">
+            <header class="neon-title">
+                <h1>DIAGNÓSTICO <span class="neon-cyan">DE CREDIBILIDADE</span></h1>
+            </header>
+            <p>Descubra o quão rápido seu perfil pode ser escalado através de impulsionamento digital estratégico.</p>
+            <p class="description-text">Insira seu perfil do Instagram para começar a análise:</p>
+            
+            <input type="text" id="instagramHandle" placeholder="@seu_perfil_aqui" required class="input-text">
+            
+            <button class="cta-button" onclick="validateAndGoToQuiz()">INICIAR DIAGNÓSTICO</button>
+            <footer class="footer-text">v1.0 | Impulso Digital</footer>
+        </div>
+
+        <div id="screen-2" class="screen">
+            <header>
+                <h2>ANÁLISE: <span id="current-question-title" class="neon-cyan">AUTORIDADE PERCEBIDA</span></h2>
+            </header>
+            <div id="questions-container">
+                </div>
+            <button class="cta-button" onclick="nextQuestion()">PRÓXIMA PERGUNTA</button>
+        </div>
+
+        <div id="screen-3" class="screen">
+            <header>
+                <h2>RESULTADO <span class="neon-cyan">DO SCAN</span></h2>
+            </header>
+            <div class="result-box">
+                <p>SUA PONTUAÇÃO FINAL:</p>
+                <div id="final-score" class="score neon-score">0</div>
+                <p>SUA NECESSIDADE DE IMPULSIONAMENTO:</p>
+                <div id="final-level" class="level-badge"></div>
+            </div>
+            <p class="description-text" id="level-description"></p>
+            
+            <button class="cta-button" onclick="goToScreen(4)">VER PROPOSTA DE SOLUÇÃO</button>
+        </div>
+
+        <div id="screen-4" class="screen">
+            <header>
+                <h2>RELATÓRIO <span class="neon-cyan">DE AÇÃO</span></h2>
+            </header>
+            
+            <div class="report-area">
+                <p class="report-pre-text">Diagnóstico de Autoridade para @<span id="final-handle"></span>:</p>
+                <div id="ai-report-text" class="report-content">
+                    <p class="loading-text">Analisando suas respostas e justificando a necessidade de impulsionamento...</p>
+                    <div class="spinner"></div>
+                </div>
+            </div>
+
+            <div class="final-cta">
+                <div class="cta-box">
+                    <p class="cta-title">A única solução para corrigir a Credibilidade Instantânea do seu perfil é:</p>
+                    <p class="cta-action">Começar o Impulsionamento Agora!</p>
+                </div>
+            </div>
+
+            <button class="cta-button purchase-cta" onclick="resetApp()">QUERO MINHA PROPOSTA DE IMPULSIONAMENTO</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
